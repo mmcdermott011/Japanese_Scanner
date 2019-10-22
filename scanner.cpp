@@ -38,6 +38,7 @@ bool word (string s)
         }
       // Q0Q1
         else if (state == 1) {
+            switch(s[charpos]) {
               case 'n':
                 state = 0; break;
               case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
@@ -52,37 +53,48 @@ bool word (string s)
                   state = 5;  break;
             case 'b': case 'm': case 'k': case 'h': case 'p': case 'v': case 'g':
                 state = 6; break;
+            }
           }
       //QSA
         else if (state == 2) {
+            switch(s[charpos]) {
                    case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                      state = 1; break;
+            }
       }
         //QT
       else  if (state == 3) {
+          switch(s[charpos]) {
                    case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                      state = 1; break;
                    case 's':
                        state = 4; break;
+          }
       }
         //QS
        else if (state == 4) {
+           switch(s[charpos]) {
                      case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                        state = 1; break;
                      case 'H':
                        state = 2; break;
+           }
        }
         //QC
         else if (state == 5) {
+            {
                       case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                         state = 1; break;
                       case 'H':
                         state = 2; break;
+            }
         }
         //QV
         else if (state == 6) {
+            {
                       case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                         state = 1; break;
+            }
         }
       charpos++;
     }//end of while
@@ -113,26 +125,26 @@ string tokenName[30] = {"WORD1", "WORD2", "PERIOD", "VERB", "VERBNEG", "VERBPAST
 // ** Need the reservedwords table to be set up here.
 // ** Do not require any file input for this. Hard code the table.
 // ** a.out should work without any additional files.
-map<string><tokentype> reserved;
-reserved["masu"] = VERB;
-reserved["masen"] = VERBNEG;
+map<string><tokentype> reservedWords;
+reservedWords["masu"] = VERB;
+reservedWords["masen"] = VERBNEG;
 reservedWords[" mashita"] = VERBPAST;
 reservedWords["masendeshita"] = VERBPASTNEG;
-reservedWords[4][0] = "desu"; reservedWords[4][1] = "IS";
-reservedWords[5][0] = "deshita"; reservedWords[5][1] = "WAS";
-reservedWords[6][0] = "o"; reservedWords[6][1] = "OBJECT";
-reservedWords[7][0] = "wa"; reservedWords[7][1] = "SUBJECT";
-reservedWords[8][0] = "ni"; reservedWords[8][1] = "DESTINATION";
-reservedWords[9][0] = "watashi"; reservedWords[9][1] = "PRONOUN";
-reservedWords[10][0] = "anata"; reservedWords[10][1] = "PRONOUN";
-reservedWords[11][0] = "kare"; reservedWords[11][1] = "PRONOUN";
-reservedWords[12][0] = "kanojo"; reservedWords[12][1] = "PRONOUN";
-reservedWords[13][0] = "sore"; reservedWords[13][1] = "PRONOUN";
-reservedWords[14][0] = "mata"; reservedWords[14][1] = "CONNECTOR";
-reservedWords[15][0] = "soshite"; reservedWords[15][1] = "CONNECTOR";
-reservedWords[16][0] = "shikashi"; reservedWords[16][1] = "CONNECTOR";
-reservedWords[17][0] = "dakara"; reservedWords[17][1] = "CONNECTOR";
-reservedWords[18][0] = "eofm"; reservedWords[18][1] = "EOFM";
+reservedWords["desu"] = IS;
+reservedWords["deshita"] = WAS;
+reservedWords["o"] = OBJECT;
+reservedWords["wa"] = SUBJECT;
+reservedWords["ni"] = DESTINATION;
+reservedWords["watashi"]= PRONOUN;
+reservedWords["anata"]  = PRONOUN;
+reservedWords["kare"]= PRONOUN;
+reservedWords["kanojo"]= PRONOUN;
+reservedWords["sore"] = PRONOUN;
+reservedWords["mata"]= CONNECTOR;
+reservedWords["soshite"] = CONNECTOR;
+reservedWords["shikashi"] = CONNECTOR;
+reservedWords["dakara"]= CONNECTOR;
+reservedWords["eofm"]= EOFM;
 
 // ------------ Scanner and Driver -----------------------
 
@@ -156,23 +168,27 @@ int scanner(tokentype& tt, string& w)
      Let the tokentype be ERROR in that case.
     */
     if(word(nextWord)) {
-        tt = WORD;
+        iterator it = reservedWords.find(nextWord);
             /*
           3. If it was a word,
              check against the reservedwords list.
              If not reserved, tokentype is WORD1 or WORD2
              decided based on the last character.
         */
-        for(int i = 0; i < 19; i++) {
-            if(nextWord == reservedWords[i][0]){
-                
-                break;
-            }
+        if(it != reservedWords.end()){
+            tt = it->second;
+        }
+        else if(reservedWords.end() == 'I' || reservedWords.end() == 'E') {
+            tt = WORD2;
+        }
+        else {
+            tt = WORD1;
         }
     }else if(period(nextWord)) {
         tt =  PERIOD;
     } else {
         tt = ERROR;
+        cout << "error" <<endl;
         return -1;
     }
     return 0;
