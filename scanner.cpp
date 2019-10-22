@@ -1,8 +1,8 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include <map>
 using namespace std;
-
 //=====================================================
 // File scanner.cpp written by: Group Number: 15
 //=====================================================
@@ -113,11 +113,11 @@ string tokenName[30] = {"WORD1", "WORD2", "PERIOD", "VERB", "VERBNEG", "VERBPAST
 // ** Need the reservedwords table to be set up here.
 // ** Do not require any file input for this. Hard code the table.
 // ** a.out should work without any additional files.
-string reservedWords[18][1];
-reservedWords[0][0] = "masu"; reservedWords[0][1] = "VERB";
-reservedWords[1][0] = "masen"; reservedWords[1][1] = "VERBNEG";
-reservedWords[2][0] = "mashita"; reservedWords[2][1] = "VERBPAST";
-reservedWords[3][0] = "masendeshita"; reservedWords[3][1] = "VERBPASTNEG";
+map<string><tokentype> reserved;
+reserved["masu"] = VERB;
+reserved["masen"] = VERBNEG;
+reservedWords[" mashita"] = VERBPAST;
+reservedWords["masendeshita"] = VERBPASTNEG;
 reservedWords[4][0] = "desu"; reservedWords[4][1] = "IS";
 reservedWords[5][0] = "deshita"; reservedWords[5][1] = "WAS";
 reservedWords[6][0] = "o"; reservedWords[6][1] = "OBJECT";
