@@ -204,7 +204,7 @@ int scanner(tokentype& tt, string& w)
         if(it != reservedWords.end()){
             tt = it->second;
         }
-        else if(w.back() == 'I' || w.back() == 'E') {
+        else if(w[w.length()-1] == 'I' || w[w.length()-1] == 'E') {
             tt = WORD2;
         }
         else {
