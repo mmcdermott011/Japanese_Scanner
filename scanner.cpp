@@ -25,7 +25,7 @@ bool word (string s)
                     state = 1; break;
                 case 'd': case 'w': case 'z': case 'y': case 'j':
                     state = 2; break;
-                case 'b': case 'm': case 'k': case 'n': case 'h': case 'p': case 'v': case 'g':
+                case 'b': case 'm': case 'k': case 'n': case 'h': case 'p': case 'r': case 'g':
                     state = 6; break;
                 case 't':
                     state = 3; break;
@@ -33,6 +33,8 @@ bool word (string s)
                     state = 4; break;
                 case 'c':
                     state = 5;  break;
+                default:
+                    return false;
             }
         } // end Q0
         
@@ -51,8 +53,10 @@ bool word (string s)
                   state = 4; break;
               case 'c':
                   state = 5;  break;
-            case 'b': case 'm': case 'k': case 'h': case 'p': case 'v': case 'g':
+            case 'b': case 'm': case 'k': case 'h': case 'p': case 'r': case 'g':
                 state = 6; break;
+                    default:
+                        return false;
             }
           } // end Q0Q1
         
@@ -61,6 +65,8 @@ bool word (string s)
             switch(s[charpos]) {
                case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                state = 1; break;
+                    default:
+                        return false;
             }
       }//end QSA
         
@@ -71,6 +77,8 @@ bool word (string s)
                  state = 1; break;
                case 's':
                    state = 4; break;
+                  default:
+                      return false;
           }
       } // end QT
         //QS
@@ -78,8 +86,10 @@ bool word (string s)
            switch(s[charpos]) {
              case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                state = 1; break;
-             case 'H':
+             case 'h':
                state = 2; break;
+                   default:
+                       return false;
            }
        }// end QS
         //QC
@@ -87,27 +97,33 @@ bool word (string s)
             switch(s[charpos]) {
                   case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                     state = 1; break;
-                  case 'H':
+                  case 'h':
                     state = 2; break;
+                    default:
+                        return false;
                  }
             } // end QC
-        //QV
+        //QR
         else if (state == 6) {
              switch(s[charpos])
             {
               case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
                 state = 1; break;
+                case 'y' : state = 2; break;
+                    default:
+                        return false;
             }
-        } // end QV
+        } // end QR
         
         else {
             cout <<"STUCK"<<endl;
+            return false;
         }
       charpos++;
     }//end of while
 
   // where did I end up????
-  if (state == 1 || state == 2) return(true);  // end in a final state
+  if (state == 0 || state == 1) return(true);  // end in a final state
    else return(false);
 } // end function
 
