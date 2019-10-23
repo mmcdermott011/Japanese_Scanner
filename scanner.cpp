@@ -1,7 +1,7 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<map>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <map>
 using namespace std;
 //=====================================================
 // File scanner.cpp written by: Group Number: 15
@@ -18,8 +18,7 @@ bool word (string s)
   int charpos = 0;
   // replace the following todo the word dfa  **
   while (s[charpos] != '\0')
-    {
-        //Q0
+    {   //Q0
         if (state == 0){
             switch(s[charpos]) {
                 case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
@@ -60,53 +59,50 @@ bool word (string s)
       //QSA
         else if (state == 2) {
             switch(s[charpos]) {
-                   case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
-                     state = 1; break;
+               case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
+               state = 1; break;
             }
       }//end QSA
         
         //QT
       else  if (state == 3) {
           switch(s[charpos]) {
-                   case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
-                     state = 1; break;
-                   case 's':
-                       state = 4; break;
+               case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
+                 state = 1; break;
+               case 's':
+                   state = 4; break;
           }
       } // end QT
-        
         //QS
        else if (state == 4) {
            switch(s[charpos]) {
-                     case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
-                       state = 1; break;
-                     case 'H':
-                       state = 2; break;
+             case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
+               state = 1; break;
+             case 'H':
+               state = 2; break;
            }
        }// end QS
-        
         //QC
         else if (state == 5) {
-                 switch(s[charpos]) {
-                      case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
-                        state = 1; break;
-                      case 'H':
-                        state = 2; break;
+            switch(s[charpos]) {
+                  case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
+                    state = 1; break;
+                  case 'H':
+                    state = 2; break;
                  }
             } // end QC
         //QV
         else if (state == 6) {
              switch(s[charpos])
             {
-                      case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
-                        state = 1; break;
+              case 'a': case 'e': case 'i': case 'o': case 'u': case 'I': case 'E':
+                state = 1; break;
             }
         } // end QV
         
         else {
             cout <<"STUCK"<<endl;
         }
-        
       charpos++;
     }//end of while
 
@@ -136,41 +132,44 @@ string tokenName[30] = {"WORD1", "WORD2", "PERIOD", "VERB", "VERBNEG", "VERBPAST
 // ** Need the reservedwords table to be set up here.
 
 map<string,tokentype> reservedWords;
+map<string,tokentype> :: iterator it;
 
-reservedWords.insert({"masu",VERB});
-reservedWords.insert({"masen",VERBNEG});
-reservedWords.insert({"mashita",VERBPAST});
-reservedWords.insert({"masendeshita",VERBPASTNEG});
-reservedWords.insert({"desu",IS});
-reservedWords.insert({"deshita",WAS});
-reservedWords.insert({"o",OBJECT});
-reservedWords.insert({"wa",SUBJECT});
-reservedWords.insert({"ni",DESTINATION});
-reservedWords.insert({"watashi", PRONOUN});
-reservedWords.insert({"anata", PRONOUN});
-reservedWords.insert({"kare",PRONOUN});
-reservedWords.insert({"kanojo",PRONOUN});
-reservedWords.insert({"sore",PRONOUN});
-reservedWords.insert({"mata",CONNECTOR});
-reservedWords.insert({"soshite",CONNECTOR});
-reservedWords.insert({"shikashi",CONNECTOR});
-reservedWords.insert({"dakara",CONNECTOR});
-reservedWords.insert({"eofm",EOFM});
+void createMap(){
+reservedWords["masu"] = VERB;
+reservedWords["masen"] = VERBNEG;
+reservedWords["mashita"] = VERBPAST;
+reservedWords["masendeshita"] = VERBPASTNEG;
+reservedWords["desu"] = IS;
+reservedWords["deshita"] = WAS;
+reservedWords["o"] = OBJECT;
+reservedWords["wa"]=SUBJECT;
+reservedWords["ni"] = DESTINATION;
+reservedWords["watashi"] = PRONOUN;
+reservedWords["anata"]= PRONOUN;
+reservedWords["kare"]=PRONOUN;
+reservedWords["kanojo"]=PRONOUN;
+reservedWords["sore"]=PRONOUN;
+reservedWords["mata"]=CONNECTOR;
+reservedWords["soshite"]=CONNECTOR;
+reservedWords["shikashi"]=CONNECTOR;
+reservedWords["dakara"]=CONNECTOR;
+reservedWords["eofm"]=EOFM;
+}
 
 // ------------ Scanner and Driver -----------------------
 
 ifstream fin;  // global stream for reading from the input file
+string nextWord;
 
 // Scanner processes only one word each time it is called
 // Gives back the token type and the word itself
 // ** Done by:
 int scanner(tokentype& tt, string& w)
 {
-
   // ** Grab the next word from the file via fin
-    fin >> nextWord;
+    fin >> w;
   // 1. If it is eofm, return right now.
-    if(nextWord == "eofm") return;
+    if(w == "eofm") return-1;
     
   /*  **
   2. Call the token functions (word and period)
@@ -178,8 +177,8 @@ int scanner(tokentype& tt, string& w)
      Generate a lexical error message if both DFAs failed.
      Let the tokentype be ERROR in that case.
     */
-    if(word(nextWord)) {
-        iterator it = reservedWords.find(nextWord);
+    if(word(w)) {
+         it = reservedWords.find(w);
             /*
           3. If it was a word,
              check against the reservedwords list.
@@ -189,18 +188,17 @@ int scanner(tokentype& tt, string& w)
         if(it != reservedWords.end()){
             tt = it->second;
         }
-        else if(reservedWords.end() == 'I' || reservedWords.end() == 'E') {
+        else if(w.back() == 'I' || w.back() == 'E') {
             tt = WORD2;
         }
         else {
             tt = WORD1;
         }
-    }else if(period(nextWord)) {
+    }else if(period(w)) {
         tt =  PERIOD;
     } else {
         tt = ERROR;
-        cout << "error" <<endl;
-        return -1;
+        cout << "Lexical error: " << w << " is not a valid token" <<endl;
     }
     return 0;
 }//the end of scanner
@@ -213,6 +211,7 @@ int scanner(tokentype& tt, string& w)
 // Done by:  Rika
 int main()
 {
+  createMap();
   tokentype thetype;
   string theword;
   string filename;
@@ -229,8 +228,7 @@ int main()
                                    // the arguments
        if (theword == "eofm") break;  // stop now
 
-       cout << "Type is:" << tokenName[thetype] << endl;
-       cout << "Word is:" << theword << endl;
+       cout << theword << " is token type " << tokenName[thetype] << endl <<endl;
     }
 
    cout << "End of file is encountered." << endl;
