@@ -244,7 +244,7 @@ int main()
                                    // the arguments
        if (theword == "eofm") break;  // stop now
 
-       cout << theword << " is token type " << tokenName[thetype] << endl <<endl;
+       cout << "\""<< theword <<"\"" << " is token type " << tokenName[thetype] << endl <<endl;
     }
 
    cout << "End of file is encountered." << endl;
