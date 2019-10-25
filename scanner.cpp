@@ -11,7 +11,7 @@ using namespace std;
 
 // WORD DFA
 // Done by: Michael McDermott Group 15
-// RE:   **
+// RE:   (vowel | vowel n | bmknhprg vowel | bmknhprg vowel n | dwzyj vowel | dwzyj vowel n | bmknhprg y vowel | bmknhprg y vowel n | t vowel | t vowel n | t s vowel | t s vowel n | s vowel | s vowel n | s h vowel | s h vowel n| ch vowel | ch vowel n ) ^+ 
 bool word (string s)
 {
   int state = 0;
@@ -179,7 +179,7 @@ string nextWord;
 
 // Scanner processes only one word each time it is called
 // Gives back the token type and the word itself
-// ** Done by:
+// ** Done by: Michael McDermott
 int scanner(tokentype& tt, string& w)
 {
   // ** Grab the next word from the file via fin
