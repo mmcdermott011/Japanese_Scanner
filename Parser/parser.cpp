@@ -5,10 +5,10 @@ using namespace std;
 
 /* INSTRUCTION:  Complete all ** parts.
    You may use any method to connect this file to scanner.cpp
-   that you had written.  
+   that you had written.
   e.g. You can copy scanner.cpp here by:
-          cp ../ScannerFiles/scanner.cpp .  
-       and then append the two files into one: 
+          cp ../ScannerFiles/scanner.cpp .
+       and then append the two files into one:
           cat scanner.cpp parser.cpp > myparser.cpp
 */
 
@@ -21,10 +21,10 @@ using namespace std;
 // ----- Four Utility Functions and Globals -----------------------------------
 
 // ** Need syntaxerror1 and syntaxerror2 functions (each takes 2 args)
-//    to display syntax error messages as specified by me.  
+//    to display syntax error messages as specified by me.
 
 // Type of error: syntaxerror
-// Done by: Aditya Kalani 
+// Done by: Aditya Kalani
 void syntaxerror1(string s1, string s2)
 {
 	cout << "Syntax Error: expected " << s1 << " but found " << s2 << endl;
@@ -32,7 +32,7 @@ void syntaxerror1(string s1, string s2)
 	exit(EXIT_FAILURE);
 }
 // Type of error: syntaxerror
-// Done by: Aditya Kalani 
+// Done by: Aditya Kalani
 void syntaxerror2(string s1, string s2)
 {
 	cout << "Syntax Error: Unexpected " << saved_lexems << " but found in " << s2 << endl;
@@ -58,7 +58,7 @@ token_type next_token()
 
 // Purpose: will update the match type when it succeeds
 // Done by: Aditya Kalani
-boolean match(tokentype expected) 
+boolean match(tokentype expected)
 {
 if (next_token() != expected)
 	{
@@ -81,8 +81,45 @@ if (next_token() != expected)
 
 // Grammar: **
 // Done by: **
+void s()
+{
 
+}
 
+void noun()
+{
+
+}
+
+void verb()
+{
+
+}
+
+void tense()
+{
+
+}
+
+void be()
+{
+
+}
+
+void afterSubject()
+{
+
+}
+
+void afterNoun()
+{
+
+}
+
+void afterObject()
+{
+	
+}
 //----------- Driver ---------------------------
 
 // The new test driver to start the parser
@@ -96,7 +133,7 @@ int main()
 
   story();
 
-  fin.close(); 
+  fin.close();
 
 }// end
 //** require no other input files!
