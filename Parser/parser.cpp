@@ -88,42 +88,43 @@ void story() {
 
 void s()
 {
-
+//M
 }
 
 void noun()
 {
-
+//A
 }
 
 void verb()
 {
-
+//J
 }
 
 void tense()
 {
-
+//J
 }
 
 void be()
 {
-
+//A
 }
 
 void afterSubject()
 {
-
+//M
+    
 }
 
 void afterNoun()
 {
-
+//A
 }
 
 void afterObject()
 {
-	
+	//J
 }
 
 
