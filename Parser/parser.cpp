@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include "scanner.cpp"
 using namespace std;
 
 /* INSTRUCTION:  Complete all ** parts.
@@ -81,6 +82,10 @@ if (next_token() != expected)
 
 // Grammar: **
 // Done by: **
+void story() {
+    
+}
+
 void s()
 {
 
@@ -120,9 +125,6 @@ void afterObject()
 {
 	
 }
-
-
-// ------------- SCANNER FUNCTION -----------------
 
 
 //----------- Driver ---------------------------
