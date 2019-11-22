@@ -96,10 +96,16 @@ void story() {
 }
 
 // Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
-// Done by: **
+// Done by: Michael McDermott
 void s()
 {
-//M
+    if(next_token() == CONNECTOR)
+    {
+      match(CONNECTOR);
+      noun();
+      match(SUBJECT);
+      afterSubject();
+    }
 }
 
 //Grammer:
@@ -123,17 +129,31 @@ void be()
 //A
 }
 
+// Grammar: <after subject> ::= <verb> <tense> PERIOD | <noun> <after noun>
+// Done by: Michael McDermott
 void afterSubject()
 {
-//M
     
+    if(next_token() == VERB) {
+        verb();
+        tense();
+        match(PERIOD);
+    }
+    else {
+        noun();
+        afterNoun();
+    }
 }
 
+// Grammar: <after noun> ::= <be> PERIOD  | DESTINATION <verb> <tense>PERIOD | OBJECT <after object>
+// Done by:
 void afterNoun()
 {
 //A
 }
 
+// Grammar: <after object> ::= <verb> <after verb> | <noun> DESTINATION <verb> <tense> PERIOD
+// Done by:
 void afterObject()
 {
 	//J
