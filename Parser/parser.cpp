@@ -120,6 +120,11 @@ void afterObject()
 {
 	
 }
+
+
+// ------------- SCANNER FUNCTION -----------------
+
+
 //----------- Driver ---------------------------
 
 // The new test driver to start the parser
