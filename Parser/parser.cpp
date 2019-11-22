@@ -3,6 +3,16 @@
 #include<string>
 using namespace std;
 
+//funciton prototypes
+void s();
+void noun();
+void verb();
+void tense();
+void be();
+void afterSubject();
+void afterNoun();
+void afterObject();
+
 /* INSTRUCTION:  Complete all ** parts.
    You may use any method to connect this file to scanner.cpp
    that you had written.
@@ -79,13 +89,14 @@ if (next_token() != expected)
 // ** Be sure to put the corresponding grammar rule above each function
 // ** Be sure to put the name of the programmer above each function
 
-// Grammar: **
+// Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
 // Done by: **
 void s()
 {
 
 }
 
+//Grammer:
 void noun()
 {
 
@@ -118,7 +129,7 @@ void afterNoun()
 
 void afterObject()
 {
-	
+
 }
 //----------- Driver ---------------------------
 
