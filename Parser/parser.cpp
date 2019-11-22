@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include "scanner.cpp"
 using namespace std;
 
 //funciton prototypes
@@ -91,6 +92,10 @@ if (next_token() != expected)
 
 // Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
 // Done by: **
+void story() {
+    
+}
+
 void s()
 {
 
@@ -131,6 +136,8 @@ void afterObject()
 {
 
 }
+
+
 //----------- Driver ---------------------------
 
 // The new test driver to start the parser
