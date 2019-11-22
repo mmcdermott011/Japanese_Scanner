@@ -90,12 +90,13 @@ if (next_token() != expected)
 // ** Be sure to put the corresponding grammar rule above each function
 // ** Be sure to put the name of the programmer above each function
 
-// Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
-// Done by: **
+
 void story() {
-    
+
 }
 
+// Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
+// Done by: **
 void s()
 {
 
