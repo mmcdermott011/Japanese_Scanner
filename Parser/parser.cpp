@@ -46,7 +46,7 @@ void syntaxerror1(string s1, string s2)
 // Done by: Aditya Kalani
 void syntaxerror2(string s1, string s2)
 {
-	cout << "Syntax Error: Unexpected " << saved_lexems << " but found in " << s2 << endl;
+	cout << "Syntax Error: Unexpected " << s1 << " but found in " << s2 << endl;
 	cout << "Program_Exit" << endl;
 	exit(EXIT_FAILURE);
 }
@@ -73,7 +73,7 @@ boolean match(tokentype expected)
 {
 if (next_token() != expected)
 	{
-		syntaxerror1(typeName[expected], saved_lexems);  //typeName[extype]
+		syntaxerror1(typeName[expected], saved_lexeme);  //typeName[extype]
 		return false;
 	}
 	else
@@ -90,7 +90,7 @@ if (next_token() != expected)
 // ** Be sure to put the corresponding grammar rule above each function
 // ** Be sure to put the name of the programmer above each function
 
-
+// Grammar: <story> ::= <s>^*
 void story() {
 
 }
@@ -108,40 +108,62 @@ void s()
     }
 }
 
-//Grammer:
+//Grammar: <noun> ::= WORD1 | PRONOUN
+// Done by: Michael McDermott
 void noun()
 {
-//A
+    cout<<"processing noun"<<endl;
+    switch(next_token){
+        case WORD1:
+            match(WORD1);
+            break;
+        case PRONOUN:
+            match(PRONOUN);
+            break;
+        default:
+            syntax_error2(saved_lexeme, "noun");
+    }
 }
 
+//Grammar: <verb> ::= WORD2
 void verb()
 {
-//J
+   cout<<"processing verb"<<endl;
+    //J
 }
 
+//Grammar: <tense> := VERBPAST  | VERBPASTNEG | VERB | VERBNEG
 void tense()
 {
-//J
+   cout<<"processing tense"<<endl;
+    //J
 }
 
+//Grammar <be> ::=   IS | WAS
 void be()
 {
-//A
+   cout<<"processing be"<<endl;
+    //A
 }
 
 // Grammar: <after subject> ::= <verb> <tense> PERIOD | <noun> <after noun>
 // Done by: Michael McDermott
 void afterSubject()
 {
-    
-    if(next_token() == VERB) {
-        verb();
-        tense();
-        match(PERIOD);
-    }
-    else {
-        noun();
-        afterNoun();
+    switch (next_token()) {
+        case VERB:
+        case WORD2:
+                verb();
+                tense();
+                match(PERIOD);
+            break:
+        case WORD1:
+        case PRONOUN:
+            noun();
+            afterNoun();
+            break;
+        default:
+            syntax_error2(saved_lexeme, "afterSubject");
     }
 }
 
