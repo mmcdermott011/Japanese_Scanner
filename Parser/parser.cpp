@@ -13,7 +13,7 @@ void be();
 void afterSubject();
 void afterNoun();
 void afterObject();
-
+string saved_lexeme;
 /* INSTRUCTION:  Complete all ** parts.
    You may use any method to connect this file to scanner.cpp
    that you had written.
@@ -91,7 +91,7 @@ if (next_token() != expected)
 // ** Be sure to put the name of the programmer above each function
 
 // Grammar: <story> ::= <s>^*
-void story() 
+void story()
 {
 	cout << "Process <story>" << endl << endl;
 	while (true)
@@ -135,17 +135,43 @@ void noun()
 }
 
 //Grammar: <verb> ::= WORD2
+// Done by: Joshua Matthews
 void verb()
 {
    cout<<"processing verb"<<endl;
-    //J
+
+		switch (next_token()) {
+			case WORD2:
+				match(WORD2);
+				bread;
+			default:
+				syntax_error2(saved_lexeme, "verb");
+			}
 }
 
 //Grammar: <tense> := VERBPAST  | VERBPASTNEG | VERB | VERBNEG
+// Done by: Joshua Matthews
 void tense()
 {
    cout<<"processing tense"<<endl;
-    //J
+
+	 switch(next_token())
+     {
+     case  VERBPAST:
+       match(VERBPAST);
+       break;
+     case  VERBPASTNEG:
+       match(VERBPASTNEG);
+       break;
+     case  VERB:
+       match(VERB);
+       break;
+     case  VERBNEG:
+       match(VERBNEG);
+       break;
+     default:
+       syntax_error2(saved_lexeme, "tense");
+     }
 }
 
 //Grammar <be> ::=   IS | WAS
@@ -154,7 +180,7 @@ void be()
 {
 	cout << "Processing <be> " << endl; // prints the name of the function
 
-	switch (next_token())  // If the next token after "be" is "IS" or "WAS" then it matches 
+	switch (next_token())  // If the next token after "be" is "IS" or "WAS" then it matches
 						   // otherwise it is a syntax error
 	{
 	case IS:
@@ -195,10 +221,10 @@ void afterNoun()
 {
 	cout << "Processing <after_noun>" << endl;    // prints the name of the function
 
-	switch (next_token())    // If the next token after "after_noun" is "IS" or "WAS" 
-							 // then it calls "be" and "next_token" If the next token 
-							 // after "after_object" is "DESTINATION" then it matches 
-							 // and calls "next_token" If the next token 
+	switch (next_token())    // If the next token after "after_noun" is "IS" or "WAS"
+							 // then it calls "be" and "next_token" If the next token
+							 // after "after_object" is "DESTINATION" then it matches
+							 // and calls "next_token" If the next token
 							 // after "after_noun" is "OBJECT" then it matches and calls
 							 // "after_object" otherwise it is a syntax error
 
@@ -229,10 +255,34 @@ void afterNoun()
 }
 
 // Grammar: <after object> ::= <verb> <after verb> | <noun> DESTINATION <verb> <tense> PERIOD
-// Done by:
+// Done by: Joshua Matthews
 void afterObject()
 {
-	//J
+	cout << "Processing afterObject." << endl;
+
+	switch(next_token())
+    {
+    case WORD1:
+      noun();
+      match(DESTINATION);
+      verb();
+      tense();
+      match(PERIOD);
+      break;
+		case WORD2:
+			verb();
+			tense();
+			match(PERIOD);
+			break;
+		case PRONOUN:
+      noun();
+      match(DESTINATION);
+      verb();
+      tense();
+      match(PERIOD);
+      break;
+    default:
+      syntax_error2(saved_lexeme, "<afterObject>()");
 }
 
 
