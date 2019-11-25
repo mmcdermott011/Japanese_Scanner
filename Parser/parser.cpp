@@ -56,7 +56,7 @@ void syntaxerror2(string s1, string s2)
 
 // Purpose: next token will be updated and is returned from the scanner
 // Done by: Aditya Kalani
-token_type next_token()
+tokentype next_token()
 {
 	string theword;
 	if (!token_available)
