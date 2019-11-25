@@ -40,7 +40,7 @@ void syntaxerror1(string s1, string s2)
 {
 	cout << "Syntax Error: expected " << s1 << " but found " << s2 << endl;
 	cout << "Program_Exit" << endl;
-	exit(EXIT_FAILURE);
+	exit(1);
 }
 // Type of error: syntaxerror
 // Done by: Aditya Kalani
@@ -48,7 +48,7 @@ void syntaxerror2(string s1, string s2)
 {
 	cout << "Syntax Error: Unexpected " << s1 << " but found in " << s2 << endl;
 	cout << "Program_Exit" << endl;
-	exit(EXIT_FAILURE);
+	exit(1);
 }
 
 // ** Need the updated match and next_token with 2 global vars
