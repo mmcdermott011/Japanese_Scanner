@@ -140,10 +140,23 @@ void tense()
 }
 
 //Grammar <be> ::=   IS | WAS
+//Done by: Aditya Kalani
 void be()
 {
-   cout<<"processing be"<<endl;
-    //A
+	cout << "Processing <be> " << endl; // prints the name of the function
+
+	switch (next_token())  // If the next token after "be" is "IS" or "WAS" then it matches 
+						   // otherwise it is a syntax error
+	{
+	case IS:
+		match(IS);
+		break;
+	case WAS:
+		match(WAS);
+		break;
+	default: syntaxerror2(typeName[thetype], "be()");
+		break;
+	}
 }
 
 // Grammar: <after subject> ::= <verb> <tense> PERIOD | <noun> <after noun>
@@ -168,10 +181,42 @@ void afterSubject()
 }
 
 // Grammar: <after noun> ::= <be> PERIOD  | DESTINATION <verb> <tense>PERIOD | OBJECT <after object>
-// Done by:
+// Done by: Aditya Kalani
 void afterNoun()
 {
-//A
+	cout << "Processing <after_noun>" << endl;    // prints the name of the function
+
+	switch (next_token())    // If the next token after "after_noun" is "IS" or "WAS" 
+							 // then it calls "be" and "next_token" If the next token 
+							 // after "after_object" is "DESTINATION" then it matches 
+							 // and calls "next_token" If the next token 
+							 // after "after_noun" is "OBJECT" then it matches and calls
+							 // "after_object" otherwise it is a syntax error
+
+	{
+	case IS:
+	case WAS:
+		be();
+		next_token();
+		match(PERIOD);
+		break;
+	case DESTINATION:
+		match(DESTINATION);
+		next_token();
+		verb();
+		tense();
+		next_token();
+		match(PERIOD);
+		break;
+
+	case OBJECT:
+		match(OBJECT);
+		after_object();
+		break;
+	default:
+		syntaxerror2(typeName[thetype], "<after_noun>()");
+		break;
+	}
 }
 
 // Grammar: <after object> ::= <verb> <after verb> | <noun> DESTINATION <verb> <tense> PERIOD
