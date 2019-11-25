@@ -91,8 +91,17 @@ if (next_token() != expected)
 // ** Be sure to put the name of the programmer above each function
 
 // Grammar: <story> ::= <s>^*
-void story() {
-
+void story() 
+{
+	cout << "Process <story>" << endl << endl;
+	while (true)
+	{
+		if (!s())
+		{
+			break;
+		}
+	}
+	cout << "Successfully parsed <story>." << endl;
 }
 
 // Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
