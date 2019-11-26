@@ -49,10 +49,8 @@ void syntaxerror2(string saved_lexeme, string parserFunct)
 // Done by: Aditya Kalani
 tokentype next_token()
 {
-
     if (!token_available)
 	{
-        cout <<"next Token"<<endl;
 		scanner(saved_token, saved_lexeme);
 		cout << "word: " << saved_lexeme << endl;
 		token_available = true;
@@ -66,14 +64,14 @@ bool match(tokentype expected)
 {
 if (next_token() != expected)
 	{
-	  syntaxerror1(expected, saved_lexeme);  //typeName[extype]
-		return false;
+	  syntaxerror1(expected, saved_lexeme);
+        return false;
 	}
 	else
 	{
 		cout << "Matched " << tokenName[expected] << endl;
-		token_available = false;  // eat up the token
-		return true;              // say there was a match
+		token_available = false;
+		return true;
 	}
 }
 
@@ -86,11 +84,19 @@ if (next_token() != expected)
 // Grammar: <story> ::= <s>^*
 void story()
 {
-  s();
   cout << "Process <story>" << endl;
-  while (saved_lexeme != "EOFM" && saved_lexeme !="eofm")
+  s();
+  while (saved_lexeme !="eofm")
     {
-      s();
+        switch (next_token()) // look ahead to see if the valid start is there
+        {
+        case CONNECTOR:
+        case WORD1:
+        case PRONOUN:s();// found another beginning
+            break;
+        default:
+            return;  // loop stops
+        }//end switch
     }
   cout << "Successfully parsed <story>." << endl;
 }
@@ -100,16 +106,17 @@ void story()
 void s()
 {
   next_token();
-    if(saved_lexeme != "EOFM" && saved_lexeme !="eofm") {
-      cout << "Processing <s>" << endl;
+    if(saved_lexeme !="eofm") {
+      cout << "=========== Processing <s> =========== " << endl;
         if(next_token() == CONNECTOR)
         {
-          match(CONNECTOR);
+          match(saved_token);
         }
         noun();
         match(SUBJECT);
         afterSubject();
     }
+    cout <<endl;
 }
 
 //Grammar: <noun> ::= WORD1 | PRONOUN
@@ -125,7 +132,7 @@ void noun()
             match(PRONOUN);
             break;
         default:
-            syntaxerror2(saved_lexeme, "noun");
+            syntaxerror2(tokenName[saved_token], "noun");
     }
 }
 
@@ -186,7 +193,6 @@ void be()
 		break;
 	default: 
 		syntaxerror2(tokenName[saved_token], "be()");
-		break;
 	}
 }
 
@@ -195,7 +201,7 @@ void be()
 void afterSubject()
 {
     switch (next_token()) {
-        case VERB:
+        //case VERB:
         case WORD2:
                 verb();
                 tense();
@@ -207,7 +213,7 @@ void afterSubject()
             afterNoun();
             break;
         default:
-            syntaxerror2(saved_lexeme, "afterSubject");
+            syntaxerror2(tokenName[saved_token], "afterSubject");
     }
 }
 
@@ -221,15 +227,15 @@ void afterNoun()
 	  case IS:
 	  case WAS:
 	    be();
-	    next_token();
+	   // next_token();
 	    match(PERIOD);
 	    break;
 	  case DESTINATION:
 	    match(DESTINATION);
-	    next_token();
+	//    next_token();
 	    verb();
 	    tense();
-	    next_token();
+	//    next_token();
 	    match(PERIOD);
 	    break;
 	    
@@ -239,7 +245,7 @@ void afterNoun()
 	    break;
 	  default:
 	    syntaxerror2(tokenName[saved_token], "<after_noun>()");
-	    break;
+	//    break;
 	  }
 }
 
