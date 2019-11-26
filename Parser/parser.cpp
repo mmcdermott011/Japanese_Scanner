@@ -17,16 +17,6 @@ void afterObject();
 string saved_lexeme;
 bool  token_available = false;
 tokentype saved_token;
-/* INSTRUCTION:  Complete all ** parts.
-   You may use any method to connect this file to scanner.cpp
-   that you had written.
-  e.g. You can copy scanner.cpp here by:
-          cp ../ScannerFiles/scanner.cpp .
-       and then append the two files into one:
-          cat scanner.cpp parser.cpp > myparser.cpp
-*/
-
-
 
 //=================================================
 // File parser.cpp written by Group Number: 15
