@@ -110,14 +110,16 @@ void story()
 void s()
 {
   next_token();
-  cout << "Processing <s>" << endl;
-    if(next_token() == CONNECTOR)
-    {
-      match(CONNECTOR);
+    if(saved_lexeme != "EOFM" && saved_lexeme !="eofm") {
+      cout << "Processing <s>" << endl;
+        if(next_token() == CONNECTOR)
+        {
+          match(CONNECTOR);
+        }
+        noun();
+        match(SUBJECT);
+        afterSubject();
     }
-    noun();
-         match(SUBJECT);
-         afterSubject();
 }
 
 //Grammar: <noun> ::= WORD1 | PRONOUN
