@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include<stdlib.h>
 #include "scanner.cpp"
 using namespace std;
 
@@ -14,6 +15,8 @@ void afterSubject();
 void afterNoun();
 void afterObject();
 string saved_lexeme;
+bool  token_available = false;
+tokentype saved_token;
 /* INSTRUCTION:  Complete all ** parts.
    You may use any method to connect this file to scanner.cpp
    that you had written.
@@ -36,19 +39,17 @@ string saved_lexeme;
 
 // Type of error: syntaxerror
 // Done by: Aditya Kalani
-void syntaxerror1(string s1, string s2)
+void syntaxerror1(tokentype expected, string saved_lexeme)
 {
-	cout << "Syntax Error: expected " << s1 << " but found " << s2 << endl;
-	cout << "Program_Exit" << endl;
-	exit(1);
+  cout<<"SYNTAX ERROR: expected "<< tokenName[expected]  << " but found "<<  saved_lexeme <<endl;
+  exit (1); //halting
 }
-// Type of error: syntaxerror
-// Done by: Aditya Kalani
-void syntaxerror2(string s1, string s2)
+
+//Done By: Aditya Kalani
+void syntaxerror2(string saved_lexeme, string parserFunct)
 {
-	cout << "Syntax Error: Unexpected " << s1 << " but found in " << s2 << endl;
-	cout << "Program_Exit" << endl;
-	exit(1);
+  cout<<"SYNTAX ERROR: unexpected "<< saved_lexeme << " found in "<< parserFunct <<endl;
+  exit (1); //halting
 }
 
 // ** Need the updated match and next_token with 2 global vars
@@ -58,27 +59,27 @@ void syntaxerror2(string s1, string s2)
 // Done by: Aditya Kalani
 tokentype next_token()
 {
-	string theword;
 	if (!token_available)
 	{
-		scanner(thetype, theword);
+		scanner(saved_token, saved_lexeme);
+		cout << "word" << saved_lexeme << endl;
 		token_available = true;
 	}
-	return thetype;    // return the saved token
+	return saved_token;    // return the saved token
 }
 
 // Purpose: will update the match type when it succeeds
 // Done by: Aditya Kalani
-boolean match(tokentype expected)
+bool match(tokentype expected)
 {
 if (next_token() != expected)
 	{
-		syntaxerror1(typeName[expected], saved_lexeme);  //typeName[extype]
+	  syntaxerror1(expected, saved_lexeme);  //typeName[extype]
 		return false;
 	}
 	else
 	{
-		cout << "Matched " << typeName[thetype] << endl;
+		cout << "Matched " << tokenName[expected] << endl;
 		token_available = false;  // eat up the token
 		return true;              // say there was a match
 	}
@@ -93,21 +94,21 @@ if (next_token() != expected)
 // Grammar: <story> ::= <s>^*
 void story()
 {
-	cout << "Process <story>" << endl << endl;
-	while (true)
-	{
-		if (!s())
-		{
-			break;
-		}
-	}
-	cout << "Successfully parsed <story>." << endl;
+  s();
+  cout << "Process <story>" << endl;
+  while (saved_lexeme != "eofm")
+    {
+      s();
+    }
+  cout << "Successfully parsed <story>." << endl;
 }
 
 // Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
 // Done by: Michael McDermott
 void s()
 {
+  next_token();
+  cout << "Processing <s>" << endl;
     if(next_token() == CONNECTOR)
     {
       match(CONNECTOR);
@@ -115,6 +116,7 @@ void s()
       match(SUBJECT);
       afterSubject();
     }
+    
 }
 
 //Grammar: <noun> ::= WORD1 | PRONOUN
@@ -122,7 +124,7 @@ void s()
 void noun()
 {
     cout<<"processing noun"<<endl;
-    switch(next_token){
+    switch(next_token()){
         case WORD1:
             match(WORD1);
             break;
@@ -130,7 +132,7 @@ void noun()
             match(PRONOUN);
             break;
         default:
-            syntax_error2(saved_lexeme, "noun");
+            syntaxerror2(saved_lexeme, "noun");
     }
 }
 
@@ -143,9 +145,9 @@ void verb()
 		switch (next_token()) {
 			case WORD2:
 				match(WORD2);
-				bread;
+				break;
 			default:
-				syntax_error2(saved_lexeme, "verb");
+				syntaxerror2(saved_lexeme, "verb");
 			}
 }
 
@@ -170,7 +172,7 @@ void tense()
        match(VERBNEG);
        break;
      default:
-       syntax_error2(saved_lexeme, "tense");
+       syntaxerror2(saved_lexeme, "tense");
      }
 }
 
@@ -189,7 +191,8 @@ void be()
 	case WAS:
 		match(WAS);
 		break;
-	default: syntaxerror2(typeName[thetype], "be()");
+	default: 
+		syntaxerror2(tokenName[saved_token], "be()");
 		break;
 	}
 }
@@ -204,14 +207,14 @@ void afterSubject()
                 verb();
                 tense();
                 match(PERIOD);
-            break:
+		break;
         case WORD1:
         case PRONOUN:
             noun();
             afterNoun();
             break;
         default:
-            syntax_error2(saved_lexeme, "afterSubject");
+            syntaxerror2(saved_lexeme, "afterSubject");
     }
 }
 
@@ -220,47 +223,40 @@ void afterSubject()
 void afterNoun()
 {
 	cout << "Processing <after_noun>" << endl;    // prints the name of the function
-
-	switch (next_token())    // If the next token after "after_noun" is "IS" or "WAS"
-							 // then it calls "be" and "next_token" If the next token
-							 // after "after_object" is "DESTINATION" then it matches
-							 // and calls "next_token" If the next token
-							 // after "after_noun" is "OBJECT" then it matches and calls
-							 // "after_object" otherwise it is a syntax error
-
-	{
-	case IS:
-	case WAS:
-		be();
-		next_token();
-		match(PERIOD);
-		break;
-	case DESTINATION:
-		match(DESTINATION);
-		next_token();
-		verb();
-		tense();
-		next_token();
-		match(PERIOD);
-		break;
-
-	case OBJECT:
-		match(OBJECT);
-		after_object();
-		break;
-	default:
-		syntaxerror2(typeName[thetype], "<after_noun>()");
-		break;
-	}
+	switch (next_token())
+	  {
+	  case IS:
+	  case WAS:
+	    be();
+	    next_token();
+	    match(PERIOD);
+	    break;
+	  case DESTINATION:
+	    match(DESTINATION);
+	    next_token();
+	    verb();
+	    tense();
+	    next_token();
+	    match(PERIOD);
+	    break;
+	    
+	  case OBJECT:
+	    match(OBJECT);
+	    afterObject();
+	    break;
+	  default:
+	    syntaxerror2(tokenName[saved_token], "<after_noun>()");
+	    break;
+	  }
 }
 
 // Grammar: <after object> ::= <verb> <after verb> | <noun> DESTINATION <verb> <tense> PERIOD
 // Done by: Joshua Matthews
 void afterObject()
 {
-	cout << "Processing afterObject." << endl;
-
-	switch(next_token())
+  cout << "Processing afterObject." << endl;
+  
+  switch(next_token())
     {
     case WORD1:
       noun();
@@ -269,12 +265,12 @@ void afterObject()
       tense();
       match(PERIOD);
       break;
-		case WORD2:
-			verb();
-			tense();
-			match(PERIOD);
-			break;
-		case PRONOUN:
+    case WORD2:
+      verb();
+      tense();
+      match(PERIOD);
+      break;
+    case PRONOUN:
       noun();
       match(DESTINATION);
       verb();
@@ -282,9 +278,9 @@ void afterObject()
       match(PERIOD);
       break;
     default:
-      syntax_error2(saved_lexeme, "<afterObject>()");
+      syntaxerror2(saved_lexeme, "<afterObject>()");
+    }
 }
-
 
 //----------- Driver ---------------------------
 
@@ -301,7 +297,8 @@ int main()
 
   fin.close();
 
-}// end
+}
+// end
 //** require no other input files!
 //** syntax error EC requires producing errors.txt of error messages
 //** tracing On/Off EC requires sending a flag to trace message output functions
