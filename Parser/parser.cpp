@@ -59,10 +59,12 @@ void syntaxerror2(string saved_lexeme, string parserFunct)
 // Done by: Aditya Kalani
 tokentype next_token()
 {
-	if (!token_available)
+
+    if (!token_available)
 	{
+        cout <<"next Token"<<endl;
 		scanner(saved_token, saved_lexeme);
-		cout << "word" << saved_lexeme << endl;
+		cout << "word: " << saved_lexeme << endl;
 		token_available = true;
 	}
 	return saved_token;    // return the saved token
@@ -96,7 +98,7 @@ void story()
 {
   s();
   cout << "Process <story>" << endl;
-  while (saved_lexeme != "eofm")
+  while (saved_lexeme != "EOFM" && saved_lexeme !="eofm")
     {
       s();
     }
@@ -112,11 +114,10 @@ void s()
     if(next_token() == CONNECTOR)
     {
       match(CONNECTOR);
-      noun();
-      match(SUBJECT);
-      afterSubject();
     }
-    
+    noun();
+         match(SUBJECT);
+         afterSubject();
 }
 
 //Grammar: <noun> ::= WORD1 | PRONOUN

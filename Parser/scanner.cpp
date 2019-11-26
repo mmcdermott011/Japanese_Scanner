@@ -151,25 +151,25 @@ map<string,tokentype> reservedWords;
 map<string,tokentype> :: iterator it;
 
 void createMap(){
-reservedWords["masu"] = VERB;
-reservedWords["masen"] = VERBNEG;
-reservedWords["mashita"] = VERBPAST;
-reservedWords["masendeshita"] = VERBPASTNEG;
-reservedWords["desu"] = IS;
-reservedWords["deshita"] = WAS;
-reservedWords["o"] = OBJECT;
-reservedWords["wa"]=SUBJECT;
-reservedWords["ni"] = DESTINATION;
-reservedWords["watashi"] = PRONOUN;
-reservedWords["anata"]= PRONOUN;
-reservedWords["kare"]=PRONOUN;
-reservedWords["kanojo"]=PRONOUN;
-reservedWords["sore"]=PRONOUN;
-reservedWords["mata"]=CONNECTOR;
-reservedWords["soshite"]=CONNECTOR;
-reservedWords["shikashi"]=CONNECTOR;
-reservedWords["dakara"]=CONNECTOR;
-reservedWords["eofm"]=EOFM;
+    reservedWords["masu"] = VERB;
+    reservedWords["masen"] = VERBNEG;
+    reservedWords["mashita"] = VERBPAST;
+    reservedWords["masendeshita"] = VERBPASTNEG;
+    reservedWords["desu"] = IS;
+    reservedWords["deshita"] = WAS;
+    reservedWords["o"] = OBJECT;
+    reservedWords["wa"]=SUBJECT;
+    reservedWords["ni"] = DESTINATION;
+    reservedWords["watashi"] = PRONOUN;
+    reservedWords["anata"]= PRONOUN;
+    reservedWords["kare"]=PRONOUN;
+    reservedWords["kanojo"]=PRONOUN;
+    reservedWords["sore"]=PRONOUN;
+    reservedWords["mata"]=CONNECTOR;
+    reservedWords["soshite"]=CONNECTOR;
+    reservedWords["shikashi"]=CONNECTOR;
+    reservedWords["dakara"]=CONNECTOR;
+    reservedWords["eofm"]=EOFM;
 }
 
 // ------------ Scanner and Driver -----------------------
@@ -182,7 +182,8 @@ string nextWord;
 // ** Done by: Michael McDermott
 int scanner(tokentype& tt, string& w)
 {
-  // ** Grab the next word from the file via fin
+    createMap();
+    // ** Grab the next word from the file via fin
     fin >> w;
   // 1. If it is eofm, return right now.
     if(w == "eofm") return-1;
