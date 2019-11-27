@@ -52,7 +52,7 @@ tokentype next_token()
     if (!token_available)
 	{
 		scanner(saved_token, saved_lexeme);
-		cout << "word: " << saved_lexeme << endl;
+        cout <<"Scanner called using word: " << saved_lexeme<<endl;
 		token_available = true;
 	}
 	return saved_token;    // return the saved token
@@ -84,7 +84,7 @@ if (next_token() != expected)
 // Grammar: <story> ::= <s>^*
 void story()
 {
-  cout << "Process <story>" << endl;
+  cout << "Processing <story>" << endl<<endl;
   s();
   while (saved_lexeme !="eofm")
     {
@@ -95,19 +95,21 @@ void story()
         case PRONOUN:s();// found another beginning
             break;
         default:
-            return;  // loop stops
+            break;  // loop stops
         }//end switch
     }
-  cout << "Successfully parsed <story>." << endl;
+    cout<<endl;
+    cout << "Successfully parsed <story>." << endl;
 }
 
 // Grammar: <s> ::= [CONNECTOR] <noun> SUBJECT <after subject>
 // Done by: Michael McDermott
 void s()
 {
-  next_token();
+    cout << "Processing <s>" << endl;
+    next_token();
     if(saved_lexeme !="eofm") {
-      cout << "=========== Processing <s> =========== " << endl;
+
         if(next_token() == CONNECTOR)
         {
           match(saved_token);
@@ -116,14 +118,13 @@ void s()
         match(SUBJECT);
         afterSubject();
     }
-    cout <<endl;
 }
 
 //Grammar: <noun> ::= WORD1 | PRONOUN
 // Done by: Michael McDermott
 void noun()
 {
-    cout<<"processing noun"<<endl;
+    cout<<"Processing <noun>"<<endl;
     switch(next_token()){
         case WORD1:
             match(WORD1);
@@ -132,7 +133,7 @@ void noun()
             match(PRONOUN);
             break;
         default:
-            syntaxerror2(tokenName[saved_token], "noun");
+            syntaxerror2(saved_lexeme, "noun");
     }
 }
 
@@ -140,7 +141,7 @@ void noun()
 // Done by: Joshua Matthews
 void verb()
 {
-   cout<<"processing verb"<<endl;
+   cout<<"Processing <verb>"<<endl;
 
 		switch (next_token()) {
 			case WORD2:
@@ -155,7 +156,7 @@ void verb()
 // Done by: Joshua Matthews
 void tense()
 {
-   cout<<"processing tense"<<endl;
+   cout<<"Processing <tense>"<<endl;
 
 	 switch(next_token())
      {
@@ -200,6 +201,7 @@ void be()
 // Done by: Michael McDermott
 void afterSubject()
 {
+    cout << "Processing <after_Subject>" << endl;    // prints the name of the function
     switch (next_token()) {
         //case VERB:
         case WORD2:
@@ -253,7 +255,7 @@ void afterNoun()
 // Done by: Joshua Matthews
 void afterObject()
 {
-  cout << "Processing afterObject." << endl;
+  cout << "Processing <afterObject>" << endl;
   
   switch(next_token())
     {
