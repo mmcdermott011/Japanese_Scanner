@@ -375,10 +375,8 @@ void buildLexicon(){
     ifstream lexFile;
     lexFile.open("lexicon.txt");
     string lex1, lex2;
-    cout <<"testing buildLexicon" <<endl;
     while(lexFile >> lex1 >> lex2) {
         lexMap.insert(pair<string, string>(lex1,lex2));
-        cout <<lex1 << " " <<lex2 <<endl;
     }
     lexFile.close();
 }
