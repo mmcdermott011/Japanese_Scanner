@@ -112,9 +112,13 @@ void s()
         if(next_token() == CONNECTOR)
         {
           match(saved_token);
+          getEword();
+          gen("CONNECTOR");
         }
         noun();
+        getEword();
         match(SUBJECT);
+        gen("ACTOR");
         afterSubject();
     }
     cout <<endl;
@@ -192,7 +196,7 @@ void be()
 	case WAS:
 		match(WAS);
 		break;
-	default: 
+	default:
 		syntaxerror2(tokenName[saved_token], "be()");
 	}
 }
@@ -204,10 +208,13 @@ void afterSubject()
     switch (next_token()) {
         //case VERB:
         case WORD2:
-                verb();
-                tense();
-                match(PERIOD);
-		break;
+            verb();
+            getEword();
+            gen("ACTION");
+            tense();
+            gen("TENSE");
+            match(PERIOD);
+		        break;
         case WORD1:
         case PRONOUN:
             noun();
@@ -227,21 +234,30 @@ void afterNoun()
 	  {
 	  case IS:
 	  case WAS:
+      getEword();
 	    be();
+      gen("DESCRIPTION");
+      gen("TENSE");
 	   // next_token();
 	    match(PERIOD);
 	    break;
 	  case DESTINATION:
+      getEword();
 	    match(DESTINATION);
+      gen("TO");
 	//    next_token();
 	    verb();
+      getEword();
+      gen("ACTION");
 	    tense();
+      gen("TENSE");
 	//    next_token();
 	    match(PERIOD);
 	    break;
-	    
+
 	  case OBJECT:
 	    match(OBJECT);
+      gen("OBJECT");
 	    afterObject();
 	    break;
 	  default:
@@ -255,26 +271,35 @@ void afterNoun()
 void afterObject()
 {
   cout << "Processing afterObject." << endl;
-  
+
   switch(next_token())
     {
     case WORD1:
       noun();
       match(DESTINATION);
       verb();
+      gen("ACTION");
       tense();
+      gen("TENSE");
       match(PERIOD);
       break;
     case WORD2:
       verb();
+      getEword();
+      gen("ACTION");
       tense();
+      gen("TENSE");
       match(PERIOD);
       break;
     case PRONOUN:
       noun();
       match(DESTINATION);
+      gen("TO");
       verb();
+      getEword();
+      gen("ACTION");
       tense();
+      gen("TENSE");
       match(PERIOD);
       break;
     default:
