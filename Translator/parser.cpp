@@ -3,6 +3,7 @@
 #include<string>
 #include<stdlib.h>
 #include "scanner.cpp"
+#include "translator.cpp"
 using namespace std;
 
 //funciton prototypes
