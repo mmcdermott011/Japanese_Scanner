@@ -5,6 +5,7 @@
 #include "parser.cpp"
 using namespace std;
 map<string,string> lexMap;
+map<string,string> :: iterator it;
 string saved_E_word;
 /* INSTRUCTION:  copy your parser.cpp here
       cp ../ParserFiles/parser.cpp .
@@ -35,29 +36,33 @@ void buildLexicon(){
 }
 
 // ** Additions to parser.cpp here:
+
+//  Done by: Michael McDermott
 //    getEword() - using the current saved_lexeme, look up the English word
 //                 in Lexicon if it is there -- save the result   
 //                 in saved_E_word
 void getEword() {
-    
-    
+    it = lexMap.find(saved_lexeme);
+    if (it != lexMap.end()) {
+        saved_E_word = it->second;
+        cout << "saved E word : " <<saved_E_word<<endl;
+    } else {
+        cout << "couldnt find E word in map" <<endl;
+    }
 }
 
-//  Done by: ** 
+//  Done by: Michael McDermott
 //    gen(line_type) - using the line type,
 //                     sends a line of an IR to translated.txt
 //                     (saved_E_word or saved_token is used)
-void gen(line_type) {
-    
-    
-    /*
-     if #gen#("Tense") is called, dont use saved_e_word, use saved_token
-     */
-    
-    //fout output to translated.txt
+void gen(string line_type) {
+    if(line_type == "tense") {
+        outFile << line_type << ": /t" << saved_token <<endl;
+    }
+    else {
+        outFile << line_type << ": /t" << saved_E_word <<endl;
+    }
 }
-
-//  Done by: ** 
 
 // ----- Changes to the parser.cpp content ---------------------
 
