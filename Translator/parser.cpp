@@ -15,6 +15,8 @@ void be();
 void afterSubject();
 void afterNoun();
 void afterObject();
+void getEword();
+void gen(string line_type);
 string saved_lexeme;
 bool  token_available = false;
 tokentype saved_token;
@@ -42,6 +44,36 @@ void syntaxerror2(string saved_lexeme, string parserFunct)
   cout<<"SYNTAX ERROR: unexpected "<< saved_lexeme << " found in "<< parserFunct <<endl;
   exit (1); //halting
 }
+
+// ** Additions to parser.cpp here:
+
+//  Done by: Michael McDermott
+//    getEword() - using the current saved_lexeme, look up the English word
+//                 in Lexicon if it is there -- save the result
+//                 in saved_E_word
+void getEword() {
+    it = lexMap.find(saved_lexeme);
+    if (it != lexMap.end()) {
+        saved_E_word = it->second;
+        cout << "saved E word : " <<saved_E_word<<endl;
+    } else {
+        cout << "couldnt find E word in map" <<endl;
+    }
+}
+
+//  Done by: Michael McDermott
+//    gen(line_type) - using the line type,
+//                     sends a line of an IR to translated.txt
+//                     (saved_E_word or saved_token is used)
+void gen(string line_type) {
+    if(line_type == "TENSE") {
+        outFile << line_type << ": /t" << saved_token <<endl;
+    }
+    else {
+        outFile << line_type << ": /t" << saved_E_word <<endl;
+    }
+}
+
 
 // ** Need the updated match and next_token with 2 global vars
 // saved_token and saved_lexeme
