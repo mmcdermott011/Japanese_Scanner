@@ -280,22 +280,18 @@ void afterNoun()
       gen("DESCRIPTION");
       be();
       gen("TENSE");
-       // next_token();
         match(PERIOD);
         break;
       case DESTINATION:
         match(DESTINATION);
         gen("TO");
-//        next_token();
         verb();
       getEword();
       gen("ACTION");
         tense();
       gen("TENSE");
-    //    next_token();
         match(PERIOD);
         break;
-
       case OBJECT:
         match(OBJECT);
       gen("OBJECT");
@@ -316,14 +312,7 @@ void afterObject()
   switch(next_token())
     {
     case WORD1:
-      /*noun();
-      match(DESTINATION);
-      verb();
-      gen("ACTION");
-      tense();
-      gen("TENSE");
-      match(PERIOD);
-       */
+    case PRONOUN:
         noun();
         getEword();
         match(DESTINATION);
@@ -334,26 +323,15 @@ void afterObject()
         tense();
         gen("TENSE");
         match(PERIOD);
-      break;
+        break;
     case WORD2:
-      verb();
-      getEword();
-      gen("ACTION");
-      tense();
-      gen("TENSE");
-      match(PERIOD);
-      break;
-    case PRONOUN:
-      noun();
-      match(DESTINATION);
-      gen("TO");
-      verb();
-      getEword();
-      gen("ACTION");
-      tense();
-      gen("TENSE");
-      match(PERIOD);
-      break;
+        verb();
+        getEword();
+        gen("ACTION");
+        tense();
+        gen("TENSE");
+        match(PERIOD);
+        break;
     default:
       syntaxerror2(saved_lexeme, "<afterObject>()");
     }
