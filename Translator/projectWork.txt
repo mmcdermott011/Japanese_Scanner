@@ -7,24 +7,22 @@ Must have divided the work as specified.
 If the member did not fully contribute to the assigned part,
 do not list his/her name!!!!!
 1.State who did what by indicating: 
-  Member A tasks (getEword) - who:
-  Member B tasks (gen) - who:
-  Member C tasks (dictionary) - who:
-  Who updated which parser functions with getEword and gen calls?
-   functions         who
-   -------------  ---------
-
+  Member A tasks (getEword) - who: Aditya Kalani
+  Member B tasks (gen) - who: Joshua Matthews 
+  Member C tasks (dictionary) - who: Michael McDermott
+  Who updated which parser functions with getEword and gen calls? All function for translator were completed in a Mob Programming style. I.e. we all sat down and worked on it together. 
+   
   
 
-2. Who came to the meeting to put together the work?
+2. Who came to the meeting to put together the work? Everyone
 
 3. You have included all the required comments?
-   (updated the grammar rules in comments?)
+   (updated the grammar rules in comments?) Yes.
 
 4. The project produced correct output for all 6
-   test cases?
+   test cases? I could only reference the first case. 
 
 5. If you did EC error recovery,
-   test 7 worked and produced translated.txt and errors.txt?
+   test 7 worked and produced translated.txt and errors.txt? NO.
    
 
